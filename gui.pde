@@ -66,6 +66,10 @@ public void btnStart_click1(GButton source, GEvent event) { //_CODE_:btnStart:98
   println("button1 - GButton >> GEvent." + event + " @ " + millis());
 } //_CODE_:btnStart:983112:
 
+public void btnStop_click1(GButton source, GEvent event) { //_CODE_:btnStop:894027:
+  println("btnStop - GButton >> GEvent." + event + " @ " + millis());
+} //_CODE_:btnStop:894027:
+
 
 
 // Create all the GUI controls. 
@@ -252,11 +256,16 @@ public void createGUI(){
   lblColormaxTblControls.setText("Colormax Tables Controls");
   lblColormaxTblControls.setTextBold();
   lblColormaxTblControls.setOpaque(false);
-  btnStart = new GButton(this, 10, 460, 480, 100);
+  btnStart = new GButton(this, 10, 460, 480, 40);
   btnStart.setText("Start Time Test");
   btnStart.setTextBold();
   btnStart.setLocalColorScheme(GCScheme.GREEN_SCHEME);
   btnStart.addEventHandler(this, "btnStart_click1");
+  btnStop = new GButton(this, 10, 520, 480, 40);
+  btnStop.setText("Stop Test");
+  btnStop.setTextBold();
+  btnStop.setLocalColorScheme(GCScheme.RED_SCHEME);
+  btnStop.addEventHandler(this, "btnStop_click1");
 }
 
 // Variable declarations 
@@ -307,3 +316,4 @@ GTextField txtRedGreenBlue;
 GLabel lblCopyableRGB; 
 GLabel lblColormaxTblControls; 
 GButton btnStart; 
+GButton btnStop; 

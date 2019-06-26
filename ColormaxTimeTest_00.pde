@@ -19,6 +19,46 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.Timer;
 
+// Intervals for taking data in seconds
+// This, ideally would be edited via some fort of GUI,
+// But this program should aslo be ~1 time use, so I'm not worried about it
+// Putting it at the top of the application code will have to do
+final int[] colormaxIntervals = {
+60,                // 1 minute
+120,               // 2 minutes
+180,               // 3 minutes
+240,               // 4 minutes
+300,               // 5 minutes
+360,               // 6 minutes
+420,               // 7 minutes
+480,               // 8 minutes
+540,               // 9 minutes
+600,               // 10 minutes
+1200,              // 20 minutes
+1800,              // 30 minutes
+2400,              // 40 minutes
+3000,              // 50 minutes
+3600,              // 60 minutes
+7200,              // 2 hours
+10800,             // 3 hours
+14400,             // 4 hours
+18000,             // 5 hours
+21600,             // 6 hours
+25200,             // 7 hours
+28800,             // 8 hours
+32400,             // 9 hours
+36000,             // 10 hours
+39600,             // 11 hours
+43200,             // 12 hours
+86400,             // 1 day
+172800,            // 2 days
+259200,            // 3 days
+345600,            // 4 days
+432000,            // 5 days
+432000,            // 6 days
+518400             // 7 days
+};
+
 // Colormax serial settings
 static int cmaxBaudRate = 115200;
 char cmaxParity = 'E';
@@ -63,18 +103,18 @@ public void setup() {
     colormaxes[i] = new Colormax("colormax" + i);
   }
 
-  colorOptions[0] = optnColorOne;
-  colorOptions[1] = optnColorTwo;
-  colorOptions[2] = optnColorThree;
-  colorOptions[3] = optnColorFour;
-  colorOptions[4] = optnColorFive;
-  colorOptions[5] = optnColorSix;
-  colorOptions[6] = optnColorSeven;
-  colorOptions[7] = optnColorEight;
-  colorOptions[8] = optnColorNine;
-  colorOptions[9] = optnColorTen;
-  colorOptions[10] = optnColorEleven;
-  colorOptions[11] = optnColorTwelve;  
+  //colorOptions[0] = optnColorOne;
+  //colorOptions[1] = optnColorTwo;
+  //colorOptions[2] = optnColorThree;
+  //colorOptions[3] = optnColorFour;
+  //colorOptions[4] = optnColorFive;
+  //colorOptions[5] = optnColorSix;
+  //colorOptions[6] = optnColorSeven;
+  //colorOptions[7] = optnColorEight;
+  //colorOptions[8] = optnColorNine;
+  //colorOptions[9] = optnColorTen;
+  //colorOptions[10] = optnColorEleven;
+  //colorOptions[11] = optnColorTwelve;  
 
   populateColormaxes();
   updateColormaxInfo(colormaxes[listColormaxSelect.getSelectedIndex()]);
@@ -261,7 +301,7 @@ void alignColor(final Colormax inColormax) {
   }
 
   oneSecondTimer.start();                                      // Start the timer!
-  btnCalibrateColor.setLocalColorScheme(GCScheme.YELLOW_SCHEME); // Change the button to yellow
+  //btnCalibrateColor.setLocalColorScheme(GCScheme.YELLOW_SCHEME); // Change the button to yellow
   inColormax.setStatus(inColormax.calibrating);                  // Change colormax's status
   return;
 }
@@ -278,7 +318,7 @@ void retakeRead(final Colormax inColormax, final int colorIndex) {
   }
 
   oneSecondTimer.start();                                      // Start the timer!
-  btnRetakePoint.setLocalColorScheme(GCScheme.YELLOW_SCHEME);  // Change the button to yellow
+  //btnRetakePoint.setLocalColorScheme(GCScheme.YELLOW_SCHEME);  // Change the button to yellow
   inColormax.setStatus(inColormax.retakingPoint);              // Change colormax's status
   return;
 }
@@ -286,11 +326,11 @@ void retakeRead(final Colormax inColormax, final int colorIndex) {
 void sendSettings(Colormax inColormax) {
   //int commandDelay = 50;  // delay in milliseconds between commands
 
-  String averaging = Integer.toString(listAveraging.getSelectedIndex());
-  String triggering = Integer.toString(listTriggering.getSelectedIndex());
-  String outputDelay = listOutputDuration.getSelectedText();
-  int illumination = sldrIllumination.getValueI();
-  inColormax.sendSettings(averaging, triggering, outputDelay, illumination);
+  //String averaging = Integer.toString(listAveraging.getSelectedIndex());
+  //String triggering = Integer.toString(listTriggering.getSelectedIndex());
+  //String outputDelay = listOutputDuration.getSelectedText();
+  //int illumination = sldrIllumination.getValueI();
+  //inColormax.sendSettings(averaging, triggering, outputDelay, illumination);
 }
 
 // Timer Listeners **************************************************
@@ -328,12 +368,12 @@ ActionListener oneSecondTimerListener = new ActionListener() {
         delay(100);                     // 100ms delay to make sure colormax gets the command
         inColormax.writeAlignColor();   // Tell colormax to take readings
         inColormax.setStatus(inColormax.idle);  // Reset Colormax status
-        btnCalibrateColor.setLocalColorScheme(GCScheme.CYAN_SCHEME); // Set button back to the default color scheme
+        //btnCalibrateColor.setLocalColorScheme(GCScheme.CYAN_SCHEME); // Set button back to the default color scheme
 
         // Check if user wants to hear a beep
-        if (chkBeepOnRead.isSelected()) {
-          Toolkit.getDefaultToolkit().beep();
-        }
+        //if (chkBeepOnRead.isSelected()) {
+        //  Toolkit.getDefaultToolkit().beep();
+        //}
 
         // Move the radio selection for the user
         for (int i = 0; i < colorOptions.length; i++) {
@@ -350,18 +390,18 @@ ActionListener oneSecondTimerListener = new ActionListener() {
       }
 
       // Retaking point
-      else if (inColormax.getStatus() == inColormax.retakingPoint) {
-        inColormax.writeTempOn();                // Verify temp table is on, cuz we need that
-        delay(100);                              // 100ms delay to make sure colormax gets the command
-        inColormax.writeRetakeRead(colorIndex);  // Tell the colormax to retake the reading
-        inColormax.setStatus(inColormax.idle);   // Reset Colormax status
-        btnRetakePoint.setLocalColorScheme(GCScheme.CYAN_SCHEME); // Set button back to the default color scheme
+      //else if (inColormax.getStatus() == inColormax.retakingPoint) {
+      //  inColormax.writeTempOn();                // Verify temp table is on, cuz we need that
+      //  delay(100);                              // 100ms delay to make sure colormax gets the command
+      //  inColormax.writeRetakeRead(colorIndex);  // Tell the colormax to retake the reading
+      //  inColormax.setStatus(inColormax.idle);   // Reset Colormax status
+      //  btnRetakePoint.setLocalColorScheme(GCScheme.CYAN_SCHEME); // Set button back to the default color scheme
 
-        // Check if the user wants to hear a beep
-        if (chkBeepOnRead.isSelected()) {
-          Toolkit.getDefaultToolkit().beep();
-        }
-      }
+      //  // Check if the user wants to hear a beep
+      //  if (chkBeepOnRead.isSelected()) {
+      //    Toolkit.getDefaultToolkit().beep();
+      //  }
+      //}
     }
   }
 };
@@ -370,7 +410,7 @@ volatile boolean checkingLine = false;    // Variable to indicate to serialEvent
 volatile boolean colormaxOnLine = false;  // Variable telling us we have one on the line
 ActionListener updateTimerListener = new ActionListener() {
   public void actionPerformed(ActionEvent e) {
-    if (chkContinuousUpdate.isSelected()) {
+    if(true) {   // was dependent on GUI element we deleted
       checkingLine = true;
       colormaxOnLine = false;
       colormaxes[listColormaxSelect.getSelectedIndex()].serial.write(13);
@@ -393,8 +433,8 @@ ActionListener updateTimerListener = new ActionListener() {
 // Cancel Align/Retake timers **************************************************
 void cancelAlignRetake(Colormax inColormax) {
   // Set UI elements back to normal
-  btnRetakePoint.setLocalColorScheme(GCScheme.CYAN_SCHEME);     // Set button back to the default color scheme
-  btnCalibrateColor.setLocalColorScheme(GCScheme.CYAN_SCHEME);  // Set button back to the default color scheme
+  //btnRetakePoint.setLocalColorScheme(GCScheme.CYAN_SCHEME);     // Set button back to the default color scheme
+  //btnCalibrateColor.setLocalColorScheme(GCScheme.CYAN_SCHEME);  // Set button back to the default color scheme
 
   inColormax.setStatus(inColormax.idle);  // Reset Colormax status
 
@@ -610,22 +650,22 @@ void transferMemory(Colormax inColormax){
 // Send Serial Number **************************************************
 
 // TO DO add to end of function, clear out text
-void sendSerialNumber(Colormax inColormax){
-  if(txtSerialNumberInput.getText().length() != 16){
-    println("@@@@@@@@@@ sendSerialNumber() incorrect length serial number @@@@@@@@@@");
-  } else {
-    inColormax.writeSerialNumber(txtSerialNumberInput.getText());
-  }
-  updateColormaxInfo(inColormax);
-}
+//void sendSerialNumber(Colormax inColormax){
+//  if(txtSerialNumberInput.getText().length() != 16){
+//    println("@@@@@@@@@@ sendSerialNumber() incorrect length serial number @@@@@@@@@@");
+//  } else {
+//    inColormax.writeSerialNumber(txtSerialNumberInput.getText());
+//  }
+//  updateColormaxInfo(inColormax);
+//}
 
 // Key Pressed Event Listener **************************************************
 void keyPressed() {
   // Spacebar Shortcut Handler
-  if (key == ' '
-    && chkSpacebarShortcut.isSelected()) {
-    btnCalibrateColor_click1(btnCalibrateColor, GEvent.CLICKED);
-  }
+  //if (key == ' '
+  //  && chkSpacebarShortcut.isSelected()) {
+  //  btnCalibrateColor_click1(btnCalibrateColor, GEvent.CLICKED);
+  //}
 }
 
 // Serial Event Listener **************************************************
@@ -669,7 +709,7 @@ void serialEvent(Serial inPort) {
   
   if (inString.startsWith("!D")){
     colormaxes[listColormaxSelect.getSelectedIndex()].parseUDID(inString);
-    txtUDID.setText(colormaxes[listColormaxSelect.getSelectedIndex()].getUDID());
+    //txtUDID.setText(colormaxes[listColormaxSelect.getSelectedIndex()].getUDID());
     //inColormax.getSerialNumber().substring(12, 16) + " tempTable";
     String logName = "UDIDs/" + colormaxes[listColormaxSelect.getSelectedIndex()].getSerialNumber() + "_UDID";
     colormaxes[listColormaxSelect.getSelectedIndex()].newLog(logName);
